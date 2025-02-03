@@ -33,3 +33,49 @@ def dia_da_semana(request, num):
     }
     dia = dias.get(num, "Número inválido! Escolha um número entre 1 e 7.")
     return render(request, 'dia.html', {'dia': dia})
+
+def dados(request):
+    context = {
+        'nome': 'João',
+        'idade': 16,
+        'cidade': 'Teresina'
+    }
+    return render(request, 'dados.html', context)
+
+from django.shortcuts import render
+
+from django.shortcuts import render, redirect
+from django.urls import reverse
+
+from django.shortcuts import render, redirect
+from django.urls import reverse
+
+def form(request):
+    if request.method == 'POST':
+        nome_completo = request.POST.get('nome_completo')
+        data_nascimento = request.POST.get('data_nascimento')
+        rg = request.POST.get('rg')
+        cpf = request.POST.get('cpf')
+        telefone = request.POST.get('telefone')
+        email = request.POST.get('email')
+        endereco = request.POST.get('endereco')
+
+        # Armazenar os dados na sessão
+        request.session['dados_cliente'] = {
+            'nome_completo': nome_completo,
+            'data_nascimento': data_nascimento,
+            'rg': rg,
+            'cpf': cpf,
+            'telefone': telefone,
+            'email': email,
+            'endereco': endereco
+        }
+
+        # Redirecionar para a view 'dados'
+        return redirect(reverse('dados'))
+
+    return render(request, 'form.html')
+
+def dados(request):
+    dados_cliente = request.session.get('dados_cliente', {})
+    return render(request, 'dados.html', dados_cliente)
