@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
 def index(request):
     return render(request, 'index.html')
@@ -35,20 +36,12 @@ def dia_da_semana(request, num):
     return render(request, 'dia.html', {'dia': dia})
 
 def dados(request):
-    context = {
+    dados_cliente = request.session.get('dados_cliente', {
         'nome': 'João',
         'idade': 16,
         'cidade': 'Teresina'
-    }
-    return render(request, 'dados.html', context)
-
-from django.shortcuts import render
-
-from django.shortcuts import render, redirect
-from django.urls import reverse
-
-from django.shortcuts import render, redirect
-from django.urls import reverse
+    })
+    return render(request, 'dados.html', dados_cliente)
 
 def form(request):
     if request.method == 'POST':
@@ -75,7 +68,3 @@ def form(request):
         return redirect(reverse('dados'))
 
     return render(request, 'form.html')
-
-def dados(request):
-    dados_cliente = request.session.get('dados_cliente', {})
-    return render(request, 'dados.html', dados_cliente)
