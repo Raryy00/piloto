@@ -117,7 +117,19 @@
                     </li>
                     <li class="nav-item">
                         <a href="{% url 'form' %}" class="nav-link">Formulário</a>
-                    </li>                  
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'listar_alunos' %}" class="nav-link">Listar Alunos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'editar_aluno' indice=0 %}" class="nav-link">Editar Aluno</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'excluir_aluno' indice=0 %}" class="nav-link">Excluir Aluno</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{% url 'cadastrar_aluno' %}" class="nav-link">Cadastrar Aluno</a>
+                    </li>           
                 </ul>
             </li>
         </ul>
