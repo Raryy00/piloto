@@ -35,14 +35,6 @@ def dia_da_semana(request, num):
     dia = dias.get(num, "Número inválido! Escolha um número entre 1 e 7.")
     return render(request, 'dia.html', {'dia': dia})
 
-def dados(request):
-    context = {
-        'nome': 'João',
-        'idade': 16,
-        'cidade': 'Teresina'
-    }
-    return render(request, 'dados.html', context)
-
 def form(request):
     if request.method == 'POST':
         nome_completo = request.POST.get('nome_completo')
