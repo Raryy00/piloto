@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
 def index(request):
     return render(request, 'index.html')
@@ -14,7 +15,7 @@ def ajuda(request):
 
 def local(request):
     return render(request, 'local.html')
-    
+
 def exibiritem(request, id):
     return render(request, 'exibiritem.html', {'id': id})
 
@@ -41,11 +42,6 @@ def dados(request):
         'cidade': 'Teresina'
     }
     return render(request, 'dados.html', context)
-
-from django.shortcuts import render
-
-from django.shortcuts import render, redirect
-from django.urls import reverse
 
 def form(request):
     if request.method == 'POST':
@@ -76,3 +72,52 @@ def form(request):
 def dados(request):
     dados_cliente = request.session.get('dados_cliente', {})
     return render(request, 'dados.html', dados_cliente)
+
+LISTA_ALUNOS = [
+    {"nome": "João Silva", "matricula": "202301", "curso": "Técnico em Informática", "turma": "208"},
+    {"nome": "Maria Oliveira", "matricula": "202302", "curso": "Técnico em Informática", "turma": "208"},
+    {"nome": "Carlos Souza", "matricula": "202303", "curso": "Técnico em Informática", "turma": "208"},
+]
+
+def listar_alunos(request):
+    context = { 
+        'lista': LISTA_ALUNOS,
+    }
+    return render(request, 'listar_alunos.html', context)
+
+def editar_aluno(request, indice):
+    aluno = LISTA_ALUNOS[indice]
+
+    if request.method == "POST":
+        aluno['nome'] = request.POST.get("nome")
+        aluno['matricula'] = request.POST.get("matricula")
+        aluno['curso'] = request.POST.get("curso")
+        aluno['turma'] = request.POST.get("turma")
+
+        return redirect('listar_alunos')
+
+    context = {
+        'aluno': aluno,
+        'indice': indice
+    }
+    return render(request, 'form_aluno.html', context)
+
+def cadastrar_aluno(request):
+    if request.method == "POST":
+        nome = request.POST.get("nome")
+        matricula = request.POST.get("matricula")
+        curso = request.POST.get("curso")
+        turma = request.POST.get("turma")
+
+        novo_aluno = {
+            "nome": nome,
+            "matricula": matricula,
+            "curso": curso,
+            "turma": turma
+        }
+        LISTA_ALUNOS.append(novo_aluno)
+        return redirect('listar_alunos')
+
+def excluir_aluno(request, indice):
+    del LISTA_ALUNOS[indice]
+    return redirect('listar_alunos')
