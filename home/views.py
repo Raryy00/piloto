@@ -72,8 +72,8 @@ LISTA_ALUNOS = [
 ]
 
 def listar_alunos(request):
-    context = { 
-        'lista': LISTA_ALUNOS,
+    context = {
+        'lista': [(indice, aluno) for indice, aluno in enumerate(LISTA_ALUNOS)],
     }
     return render(request, 'listar_alunos.html', context)
 
@@ -109,6 +109,8 @@ def cadastrar_aluno(request):
         }
         LISTA_ALUNOS.append(novo_aluno)
         return redirect('listar_alunos')
+    
+    return render(request, 'form_aluno.html', {}) 
 
 def excluir_aluno(request, indice):
     del LISTA_ALUNOS[indice]
